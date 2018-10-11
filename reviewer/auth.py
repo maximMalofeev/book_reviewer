@@ -4,11 +4,11 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
-    pass
+    return render_template('auth/register.html')
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
-    pass
+    return render_template('auth/login.html')
 
 @bp.route('/logout', methods=('GET', 'POST'))
 def logout():
