@@ -1,23 +1,27 @@
 from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 import csv
 
 def create_and_fill_books_table(engine):
-    engine.connect().execute("create table if not exists books (\
-                            id integer primary key,\
+    db = scoped_session(sessionmaker(bind=engine))
+    db.execute("create table if not exists books (\
+                            id serial primary key,\
                             isbn text unique,\
                             title text,\
                             author text,\
-                            year text\
+                            year integer\
     );")
+
     with open('books.csv') as csvfile:
         booksreader = csv.DictReader(csvfile)
         for row in booksreader:
-            engine.connect().execute("insert into books (isbn, title, author, year) values (?, ?, ?, ?)",
-                                     row['isbn'], row['title'], row['author'], row['year'])
+            db.execute("insert into books (isbn, title, author, year) values (:isbn, :title, :author, :year)",
+                                     {"isbn": row['isbn'], "title": row['title'], "author": row['author'], "year": int(row['year'])})
+    db.commit()
 
 def create_users_table(engine):
     engine.connect().execute("create table if not exists users ( \
-                                id integer primary key,\
+                                id serial primary key,\
                                 login text,\
                                 email text,\
                                 password_hash text\
@@ -25,8 +29,8 @@ def create_users_table(engine):
 
 def create_reviews_table(engine):
     engine.connect().execute("create table if not exists reviews ( \
-                                book_id integer,\
-                                user_id integer,\
+                                book_id serial,\
+                                user_id serial,\
                                 review text,\
                                 foreign key(book_id) references books(id),\
                                 foreign key(user_id) references users(id)\
