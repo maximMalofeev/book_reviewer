@@ -39,4 +39,5 @@ def book_info(isbn):
         flash(error)
         return redirect(url_for('index'))
 
-    return render_template('reviewer/book_info.html', content=book)
+    reviews = db.execute('select * from reviews where book_id = :book_id', {"book_id": book['id']})
+    return render_template('reviewer/book_info.html', book=book, reviews=reviews)

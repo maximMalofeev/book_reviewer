@@ -1,8 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>ISBN: {{ content['isbn'] }}</p>
-    <p>Title: {{ content['title'] }}</p>
-    <p>Author: {{ content['author'] }}</p>
-    <p>Year: {{ content['year'] }}</p>
+    <h1>Book Info:</h1>
+    <p>ISBN: {{ book['isbn'] }}</p>
+    <p>Title: {{ book['title'] }}</p>
+    <p>Author: {{ book['author'] }}</p>
+    <p>Year: {{ book['year'] }}</p>
+    <h2>Reviewes:</h2>
+    {% for review in reviews %}
+        <p>{{ review['review'] }}</p>
+    {% endfor %}
+    <h2>Make Review:</h2>
+    <form method="POST">
+        <label>Your review: <textarea name="review" cols="30" rows="10" maxlength="512"></textarea></label>
+        <p><button type="submit">Send</button></p>
+    </form>
 {% endblock %}
