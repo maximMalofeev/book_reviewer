@@ -32,6 +32,7 @@ def create_reviews_table(engine):
                                 book_id serial,\
                                 user_id serial,\
                                 review text,\
+                                rating integer,\
                                 foreign key(book_id) references books(id),\
                                 foreign key(user_id) references users(id)\
                                 \

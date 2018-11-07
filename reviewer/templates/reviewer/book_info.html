@@ -6,13 +6,25 @@
     <p>Title: {{ book['title'] }}</p>
     <p>Author: {{ book['author'] }}</p>
     <p>Year: {{ book['year'] }}</p>
+    <p>Average Rating: {{ average_rating }}</p>
     <h2>Reviewes:</h2>
     {% for review in reviews %}
-        <p>{{ review['review'] }}</p>
+        <p>Review: {{ review['review'] }}; User login: {{ review['user_login'] }}; Rating: {{ review['rating'] }}</p>
     {% endfor %}
-    <h2>Make Review:</h2>
+    {% if not user_has_review %}
     <form method="POST">
-        <label>Your review: <textarea name="review" cols="30" rows="10" maxlength="512"></textarea></label>
+        <fieldset>
+            <legend>Make Review:</legend>
+            <label>Your review: <textarea name="review" cols="30" rows="10" maxlength="512" required></textarea></label>
+            <label>Rating:
+                <label>1<input type="radio" name="rating" value="1" required></label>
+                <label>2<input type="radio" name="rating" value="2" required></label>
+                <label>3<input type="radio" name="rating" value="3" required></label>
+                <label>4<input type="radio" name="rating" value="4" required></label>
+                <label>5<input type="radio" name="rating" value="5" required></label>
+            </label>
+        </fieldset>
         <p><button type="submit">Send</button></p>
     </form>
+    {% endif %}
 {% endblock %}
