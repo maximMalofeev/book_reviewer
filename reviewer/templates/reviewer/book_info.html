@@ -12,7 +12,7 @@
     {% for review in reviews %}
         <p>Review: {{ review['review'] }}; User login: {{ review['user_login'] }}; Rating: {{ review['rating'] }}</p>
     {% endfor %}
-    {% if not user_has_review %}
+    {% if not user_has_review and g.user %}
     <form method="POST">
         <fieldset>
             <legend>Make Review:</legend>

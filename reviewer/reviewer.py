@@ -7,7 +7,7 @@ bp = Blueprint('reviewer', __name__)
 
 @bp.route('/')
 def index():
-    return render_template('reviewer/index.html', content='test content')
+    return render_template('reviewer/index.html', content='Welcome to Book Reviewer')
 
 @bp.route('/search', methods=['POST'])
 @login_required

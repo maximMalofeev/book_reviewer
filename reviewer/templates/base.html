@@ -1,22 +1,25 @@
 <!doctype html>
 <title>{% block title %}{% endblock %} - Books Reviewer</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<nav>
-    <h1><a href="{{ url_for('index') }}">Book Reviewer</a></h1>
-    <ul>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{ url_for('index') }}">Book Reviewer</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
         {% if g.user %}
-            <li>
-                <form method="POST", action="{{ url_for('reviewer.search') }}">
-                    <label>Search <input type="text", name="search"></label>
-                </form>
-            </li>
-            <li><span>{{ g.user['login'] }}</span></li>
-            <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+            <li class="nav-item active"><a class="nav-link">{{ g.user['login'] }}</a></li> 
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a></li>
         {% else %}
-            <li><a href="{{ url_for('auth.register') }}">Register</a></li>
-            <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.login') }}">Log In</a></li>
         {% endif %}
-    </ul>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" method="POST" action="{{ url_for('reviewer.search') }}">
+            <!-- <label>Search <input type="text" , name="search"></label> -->
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
 </nav>
 <section class="content">
     <header>
