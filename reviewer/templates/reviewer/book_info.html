@@ -6,7 +6,8 @@
     <p>Title: {{ book['title'] }}</p>
     <p>Author: {{ book['author'] }}</p>
     <p>Year: {{ book['year'] }}</p>
-    <p>Average Rating: {{ average_rating }}</p>
+    <p>Ratings count: {{ goodreads_book_info['work_ratings_count'] }}</p>
+    <p>Average Rating: {{ goodreads_book_info['average_rating'] }}</p>
     <h2>Reviewes:</h2>
     {% for review in reviews %}
         <p>Review: {{ review['review'] }}; User login: {{ review['user_login'] }}; Rating: {{ review['rating'] }}</p>

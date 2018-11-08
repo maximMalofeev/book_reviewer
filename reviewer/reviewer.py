@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, g
+from flask import Blueprint, render_template, request, flash, redirect, url_for, g, abort, jsonify
 from reviewer.db import get_db
 from reviewer.auth import login_required
 import requests
@@ -45,7 +45,7 @@ def book_info(isbn):
             {"book_id": book['id'], "user_id": g.user['id']}).fetchone()['count']
         print(user_has_review)
         reviews = db.execute('select * from reviews where book_id = :book_id', {"book_id": book['id']})
-        average_rating = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "B6TzCnQELh3QA2sdBI8A", "isbns": isbn})
+        goodreads_book_info = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "B6TzCnQELh3QA2sdBI8A", "isbns": isbn})
         reviews_list = []
         for review in reviews:
             user_login = db.execute('select login from users where id = :user_id', {"user_id": review['user_id']}).fetchone()
@@ -54,7 +54,7 @@ def book_info(isbn):
             reviews_list.append(review_dict)
 
         return render_template('reviewer/book_info.html', book=book, reviews=reviews_list,
-            average_rating=average_rating.json()['books'][0]['average_rating'], user_has_review=user_has_review)
+            goodreads_book_info=goodreads_book_info.json()['books'][0], user_has_review=user_has_review)
 
     else:
         review = request.form['review']
@@ -73,6 +73,17 @@ def book_info(isbn):
             flash(error)
 
         return redirect(url_for('reviewer.book_info', isbn=isbn))
+
+@bp.route('/api/<isbn>')
+def api_book_info(isbn):
+    db = get_db()
+    book = db.execute("select * from books where isbn = :isbn", {"isbn": isbn}).fetchone()
+
+    if book is None:
+        abort(404)
+    else:
+        return jsonify(dict(book.items()))
+    
 
 
         
