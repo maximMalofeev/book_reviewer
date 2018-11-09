@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{{ content }}
+    <div class="jumbotron">
+        <h1 class="display-4">{{ content }}{% if g.user %} {{ g.user['login'] }}{% endif %}.</h1>
+        <p class="lead">Here you can get useful information about books you want, read and submit reviews.</p>
+    </div>
 {% endblock %}
