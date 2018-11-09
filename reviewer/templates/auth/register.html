@@ -2,6 +2,9 @@
 <link href="{{ url_for('static', filename='signin.css') }}" rel="stylesheet">
 
 <form method="POST" class="form-signin">
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endfor %}
     <fieldset>
         <legend class="h3 mb-3 font-weight-normal text-center">Please Register</legend>
         <label for="inputLogin" class="sr-only">Login</label>
