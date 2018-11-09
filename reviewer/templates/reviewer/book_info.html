@@ -1,83 +1,85 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="jumbotron">
-        <div class="card border-dark mb-3" style="max-width: 40rem;">
-            <div class="card-header">Book Info</div>
-            <div class="card-body text-dark">
-                <h5 class="card-title">ISBN</h5>
-                <p class="card-text">{{ book['isbn'] }}</p>
-                <h5 class="card-title">Title</h5>
-                <p class="card-text">{{ book['title'] }}</p>
-                <h5 class="card-title">Author</h5>
-                <p class="card-text">{{ book['author'] }}</p>
-                <h5 class="card-title">Year</h5>
-                <p class="card-text">{{ book['year'] }}</p>
-                <h5 class="card-title">Ratings count</h5>
-                <p class="card-text">{{ goodreads_book_info['work_ratings_count'] }}</p>
-                <h5 class="card-title">Average Rating</h5>
-                <p class="card-text">{{ goodreads_book_info['average_rating'] }}</p>
-            </div>
-        </div>
-    </div>
-    {% if reviews %}
+    <div class="container vertical-center">
         <div class="jumbotron">
-            <div class="card border-dark bg-light mb-3" style="max-width: 40rem;">
-            <div class="card-header">Reviewes</div>
-            <div class="card-body">
-            {% for review in reviews %}
-                <div class="card bg-light mb-3" style="max-width: 40rem;">
-                    <div class="card-header">{{ review['user_login'] }}</div>
-                    <div class="card-body">
-                        <p class="card-text">{{ review['review'] }}</p>
-                        <p class="card-text">Rating: {{ review['rating'] }}</p>
-                    </div>
+            <div class="card border-dark mb-3" style="max-width: 40rem;">
+                <div class="card-header">Book Info</div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title">ISBN</h5>
+                    <p class="card-text">{{ book['isbn'] }}</p>
+                    <h5 class="card-title">Title</h5>
+                    <p class="card-text">{{ book['title'] }}</p>
+                    <h5 class="card-title">Author</h5>
+                    <p class="card-text">{{ book['author'] }}</p>
+                    <h5 class="card-title">Year</h5>
+                    <p class="card-text">{{ book['year'] }}</p>
+                    <h5 class="card-title">Ratings count</h5>
+                    <p class="card-text">{{ goodreads_book_info['work_ratings_count'] }}</p>
+                    <h5 class="card-title">Average Rating</h5>
+                    <p class="card-text">{{ goodreads_book_info['average_rating'] }}</p>
                 </div>
-            {% endfor %}
-            </div>
             </div>
         </div>
-    {% else %}
-        <div class="jumbotron">
-            <h1 class="display-4">No reviews.</h1>
-            <p class="lead">There is still no reviews for this book. Be first who submitted review.</p>
-        </div>
-    {% endif %}
-    {% if not user_has_review and g.user %}
-    <form method="POST" class="jumbotron">
-        <fieldset>
-            <legend>Make Review:</legend>
-            <div class="form-group">
-                <label for="reviewTextArea">Your review:</label>
-                <textarea class="form-control" id="reviewTextArea" name="review" cols="30" rows="10" maxlength="512" required></textarea>
-            </div>
-            <div class="form-group">
-                    <label for="ratingGroup">Rating:</label>
-                    <div id="ratingGroup">
-                        <div class="form-check form-check-inline">
-                            <input id="ratingRadio1" class="form-check-input" type="radio" name="rating" value="1" required>
-                            <label class="form-check-label" for="ratingRadio1">1</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input id="ratingRadio2" class="form-check-input" type="radio" name="rating" value="2" required>
-                            <label class="form-check-label" for="ratingRadio2">2</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input id="ratingRadio3" class="form-check-input" type="radio" name="rating" value="3" required>
-                            <label class="form-check-label" for="ratingRadio3">3</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input id="ratingRadio4" class="form-check-input" type="radio" name="rating" value="4" required>
-                            <label class="form-check-label" for="ratingRadio4">4</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input id="ratingRadio5" class="form-check-input" type="radio" name="rating" value="5" required>
-                            <label class="form-check-label" for="ratingRadio5">5</label>
+        {% if reviews %}
+            <div class="jumbotron">
+                <div class="card border-dark bg-light mb-3" style="max-width: 40rem;">
+                <div class="card-header">Reviewes</div>
+                <div class="card-body">
+                {% for review in reviews %}
+                    <div class="card bg-light mb-3" style="max-width: 40rem;">
+                        <div class="card-header">{{ review['user_login'] }}</div>
+                        <div class="card-body">
+                            <p class="card-text">{{ review['review'] }}</p>
+                            <p class="card-text">Rating: {{ review['rating'] }}</p>
                         </div>
                     </div>
+                {% endfor %}
+                </div>
+                </div>
             </div>
-        </fieldset>
-        <p><button class="btn btn-primary" type="submit">Send</button></p>
-    </form>
-    {% endif %}
+        {% else %}
+            <div class="jumbotron">
+                <h1 class="display-4">No reviews.</h1>
+                <p class="lead">There is still no reviews for this book. Be first who submitted review.</p>
+            </div>
+        {% endif %}
+        {% if not user_has_review and g.user %}
+        <form method="POST" class="jumbotron">
+            <fieldset>
+                <legend>Make Review:</legend>
+                <div class="form-group">
+                    <label for="reviewTextArea">Your review:</label>
+                    <textarea class="form-control" id="reviewTextArea" name="review" cols="30" rows="10" maxlength="512" required></textarea>
+                </div>
+                <div class="form-group">
+                        <label for="ratingGroup">Rating:</label>
+                        <div id="ratingGroup">
+                            <div class="form-check form-check-inline">
+                                <input id="ratingRadio1" class="form-check-input" type="radio" name="rating" value="1" required>
+                                <label class="form-check-label" for="ratingRadio1">1</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input id="ratingRadio2" class="form-check-input" type="radio" name="rating" value="2" required>
+                                <label class="form-check-label" for="ratingRadio2">2</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input id="ratingRadio3" class="form-check-input" type="radio" name="rating" value="3" required>
+                                <label class="form-check-label" for="ratingRadio3">3</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input id="ratingRadio4" class="form-check-input" type="radio" name="rating" value="4" required>
+                                <label class="form-check-label" for="ratingRadio4">4</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input id="ratingRadio5" class="form-check-input" type="radio" name="rating" value="5" required>
+                                <label class="form-check-label" for="ratingRadio5">5</label>
+                            </div>
+                        </div>
+                </div>
+            </fieldset>
+            <p><button class="btn btn-primary" type="submit">Send</button></p>
+        </form>
+        {% endif %}
+    </div>
 {% endblock %}
