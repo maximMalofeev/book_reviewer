@@ -44,7 +44,6 @@ def register():
             db.execute("insert into users (login, email, password_hash) values(:login, :email, :password_hash)",
                         {"login": login, "email": email, "password_hash": generate_password_hash(password)})
             db.commit()
-            flash(f'Received login: {login}, email: {email}, password: {password}')
             return redirect(url_for('auth.login'))
         
         flash(error)
